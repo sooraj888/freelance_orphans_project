@@ -3,7 +3,7 @@ import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 
-export default function MyButton({title, onPress}) {
+export default function MyButton({title, onPress, hideArrow}) {
   return (
     <TouchableOpacity onPress={() => onPress()} style={{}}>
       <LinearGradient
@@ -22,13 +22,15 @@ export default function MyButton({title, onPress}) {
           marginVertical: 10,
         }}>
         <Text style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>
-          {String(title).toLocaleUpperCase()}
+          {title && String(title)?.toLocaleUpperCase()}
         </Text>
-        <AntDesign
-          size={20}
-          style={{paddingLeft: 10}}
-          name={'arrowright'}
-          color={'white'}></AntDesign>
+        {!hideArrow && (
+          <AntDesign
+            size={20}
+            style={{paddingLeft: 10}}
+            name={'arrowright'}
+            color={'white'}></AntDesign>
+        )}
       </LinearGradient>
     </TouchableOpacity>
   );

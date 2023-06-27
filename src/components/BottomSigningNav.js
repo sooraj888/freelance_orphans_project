@@ -6,17 +6,21 @@ export default function BottomSigningNav({
   message,
   buttonText,
   navigateScreenName,
+  style,
 }) {
   const navigation = useNavigation();
   return (
     <View
-      style={{
-        width: '100%',
-        flexDirection: 'row',
-        display: 'flex',
-        justifyContent: 'center',
-        paddingVertical: 20,
-      }}>
+      style={[
+        {
+          width: '100%',
+          flexDirection: 'row',
+          display: 'flex',
+          justifyContent: 'center',
+          paddingVertical: 20,
+        },
+        // style,
+      ]}>
       <Text>{message + ' '}</Text>
       <TouchableOpacity
         onPress={() => {

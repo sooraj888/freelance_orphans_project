@@ -6,7 +6,7 @@ import TextBox from '../components/TextBox';
 import {TouchableOpacity} from 'react-native';
 import MyButton from '../components/MyButton';
 
-export default function SignInScreen() {
+export default function SignInScreen({navigation}) {
   const insets = useSafeAreaInsets();
   console.log(insets);
   return (
@@ -49,18 +49,19 @@ export default function SignInScreen() {
             <View style={{}}>
               <TextBox
                 icon={'mail'}
-                // value={''}
                 onChange={e => {
-                  console.log(e);
+                  // console.log(e);
                 }}
+                placeholder={'Email'}
               />
             </View>
             <View>
               <TextBox
                 icon={'lock'}
                 onChange={e => {
-                  console.log(e);
+                  // console.log(e);
                 }}
+                placeholder={'Password'}
                 type={'password'}
               />
             </View>
@@ -69,7 +70,7 @@ export default function SignInScreen() {
                 <MyButton
                   title={'Sign In'}
                   onPress={() => {
-                    console.log('hi');
+                    navigation.navigate('MainBottomNavigation');
                   }}
                 />
               </View>

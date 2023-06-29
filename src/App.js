@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {
   SafeAreaView,
@@ -25,10 +25,41 @@ import MainStackNavigation from './navigations/MainStackNavigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {TouchableHighlight} from 'react-native';
 
+import store from './redux/store';
+import {navigate, navigationRef, replace} from './navigations/RootNavigation';
+
+import {useDispatch} from 'react-redux';
+import {signIn} from './redux/SingIn/action';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {call} from 'redux-saga/effects';
+
 function App() {
+  const dispatch = useDispatch();
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('my-key');
+      if (value !== null) {
+        dispatch(signIn(67));
+      } else {
+        setTimeout(() => {
+          replace();
+        }, 1000);
+      }
+    } catch (e) {
+      setTimeout(() => {
+        replace();
+      }, 1000);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <MainStackNavigation />
       </NavigationContainer>
     </SafeAreaProvider>

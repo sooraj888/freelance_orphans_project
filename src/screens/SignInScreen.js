@@ -5,10 +5,16 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import TextBox from '../components/TextBox';
 import {TouchableOpacity} from 'react-native';
 import MyButton from '../components/MyButton';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {add} from '../redux/Add/action';
+import {signIn} from '../redux/SingIn/action';
 
 export default function SignInScreen({navigation}) {
-  const insets = useSafeAreaInsets();
-  console.log(insets);
+  const dispatch = useDispatch();
+
+  const addedValue = useSelector(state => state?.reducer);
+
   return (
     <View
       style={{paddingTop: StatusBar.currentHeight, backgroundColor: 'white'}}>
@@ -17,6 +23,9 @@ export default function SignInScreen({navigation}) {
         hidden={true}
         backgroundColor={'transparent'}
       />
+      <View style={{position: 'absolute', right: 0, left: 0, top: 10}}>
+        <Text>{JSON.stringify(addedValue)}</Text>
+      </View>
       <View
         style={{
           display: 'flex',
@@ -70,7 +79,9 @@ export default function SignInScreen({navigation}) {
                 <MyButton
                   title={'Sign In'}
                   onPress={() => {
-                    navigation.navigate('MainBottomNavigation');
+                    // dispatch(add(1));
+                    dispatch(signIn(67));
+                    // navigation.navigate('MainBottomNavigation');
                   }}
                 />
               </View>

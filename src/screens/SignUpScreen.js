@@ -10,13 +10,7 @@ export default function SignUpScreen({navigation}) {
   const insets = useSafeAreaInsets();
   console.log(insets);
   return (
-    <View
-      style={{paddingTop: StatusBar.currentHeight, backgroundColor: 'white'}}>
-      <StatusBar
-        translucent={true}
-        hidden={true}
-        backgroundColor={'transparent'}
-      />
+    <View style={{backgroundColor: 'white'}}>
       <View
         style={{
           display: 'flex',

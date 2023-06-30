@@ -40,16 +40,18 @@ function App() {
     try {
       const value = await AsyncStorage.getItem('my-key');
       if (value !== null) {
-        dispatch(signIn(67));
+        setTimeout(() => {
+          dispatch(signIn(67));
+        }, 5000);
       } else {
         setTimeout(() => {
           replace();
-        }, 1000);
+        }, 5000);
       }
     } catch (e) {
       setTimeout(() => {
         replace();
-      }, 1000);
+      }, 5000);
     }
   };
 

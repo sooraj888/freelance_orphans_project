@@ -1,9 +1,11 @@
 import {View, Text} from 'react-native';
-import React from 'react';
-import {TextInput} from 'react-native';
+import React, {useState} from 'react';
+import {TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function TextBox({icon, onChange, value, type, placeholder}) {
+  const [isShowPassword, setIsShowPassword] = useState(false);
   return (
     <View
       style={{
@@ -13,13 +15,14 @@ export default function TextBox({icon, onChange, value, type, placeholder}) {
         flexDirection: 'row',
         marginVertical: 10,
         shadowColor: 'gray',
-        elevation: 5,
+        elevation: 2,
         justifyContent: 'center',
         alignItems: 'center',
         shadowColor: 'gray',
         shadowOpacity: 0.2,
         shadowRadius: 3,
         borderRadius: 5,
+        paddingHorizontal: 5,
       }}>
       {icon ? (
         <View
@@ -40,29 +43,54 @@ export default function TextBox({icon, onChange, value, type, placeholder}) {
         <View style={{width: 20}}></View>
       )}
 
-      <View
+      <TextInput
+        onChangeText={e => {
+          if (onChange) {
+            onChange(e);
+          }
+        }}
+        placeholder={placeholder}
+        secureTextEntry={type == 'password' ? !isShowPassword : false}
+        value={value}
         style={{
-          display: 'flex',
+          height: '80%',
           flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <TextInput
-          onChangeText={e => {
-            if (onChange) {
-              onChange(e);
-            }
-          }}
-          placeholder={placeholder}
-          secureTextEntry={type == 'password' ? true : false}
-          value={value}
+          fontSize: 15,
+        }}
+      />
+      {type == 'password' ? (
+        <View
           style={{
+            width: 60,
             height: '100%',
-            width: '100%',
-            fontSize: 15,
-          }}
-        />
-      </View>
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              setIsShowPassword(prev => !prev);
+            }}>
+            <View style={[{width: 30, height: 30}, styles.center]}>
+              <Ionicons
+                name={!isShowPassword ? 'eye' : 'eye-off'}
+                size={25}
+                color={'gray'}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={{}}></View>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  center: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

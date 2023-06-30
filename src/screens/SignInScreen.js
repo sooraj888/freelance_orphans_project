@@ -1,4 +1,4 @@
-import {View, Text, StatusBar} from 'react-native';
+import {View, Text, StatusBar, SafeAreaView} from 'react-native';
 import React from 'react';
 import BottomSigningNav from '../components/BottomSigningNav';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -16,16 +16,7 @@ export default function SignInScreen({navigation}) {
   const addedValue = useSelector(state => state?.reducer);
 
   return (
-    <View
-      style={{paddingTop: StatusBar.currentHeight, backgroundColor: 'white'}}>
-      <StatusBar
-        translucent={true}
-        hidden={true}
-        backgroundColor={'transparent'}
-      />
-      <View style={{position: 'absolute', right: 0, left: 0, top: 10}}>
-        <Text>{JSON.stringify(addedValue)}</Text>
-      </View>
+    <View style={{backgroundColor: 'white'}}>
       <View
         style={{
           display: 'flex',

@@ -32,6 +32,7 @@ import {useDispatch} from 'react-redux';
 import {signIn} from './redux/SingIn/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {call} from 'redux-saga/effects';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App() {
   const dispatch = useDispatch();
@@ -61,9 +62,11 @@ function App() {
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer ref={navigationRef}>
-        <MainStackNavigation />
-      </NavigationContainer>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer ref={navigationRef}>
+          <MainStackNavigation />
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }

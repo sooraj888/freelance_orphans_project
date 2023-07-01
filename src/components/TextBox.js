@@ -49,6 +49,13 @@ export default function TextBox({icon, onChange, value, type, placeholder}) {
             onChange(e);
           }
         }}
+        keyboardType={
+          type == 'password'
+            ? isShowPassword
+              ? 'visible-password'
+              : 'default'
+            : 'default'
+        }
         placeholder={placeholder}
         secureTextEntry={type == 'password' ? !isShowPassword : false}
         value={value}

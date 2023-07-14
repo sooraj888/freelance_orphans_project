@@ -1,4 +1,10 @@
-import {View, Text, StatusBar, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  StatusBar,
+  SafeAreaView,
+  ActivityIndicator,
+} from 'react-native';
 import React from 'react';
 import BottomSigningNav from '../components/BottomSigningNav';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -13,7 +19,23 @@ import {signIn} from '../redux/SingIn/action';
 export default function SignInScreen({navigation}) {
   const dispatch = useDispatch();
 
-  const addedValue = useSelector(state => state?.reducer);
+  const addedValue = useSelector(state => state?.signInReducer);
+
+  if (addedValue?.loading) {
+    return (
+      <View
+        style={{
+          backgroundColor: 'white',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+        }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text size={30}>loading............</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={{backgroundColor: 'white'}}>

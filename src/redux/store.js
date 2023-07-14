@@ -5,6 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 // import sagaData from './saga';
 
 import signInSaga from './SingIn/saga';
+import rootSaga from './rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -12,5 +13,5 @@ const store = configureStore({
   middleware: () => [sagaMiddleware],
 });
 
-sagaMiddleware.run(signInSaga);
+sagaMiddleware.run(rootSaga);
 export default store;

@@ -2,8 +2,11 @@ import {View, Text, Dimensions} from 'react-native';
 import React from 'react';
 import OrphansDetailsCard from '../components/OrphansDetailsCard';
 import {ScrollView} from 'react-native';
+import {useSelector} from 'react-redux';
 
 export default function HomeScreen() {
+  const addedValue = useSelector(state => state?.signInReducer);
+  console.warn(addedValue);
   const array = new Array(10).fill('');
   return (
     <View style={{flex: 1}}>

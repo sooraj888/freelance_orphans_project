@@ -14,6 +14,7 @@ export default function MainStackNavigation() {
 
   return (
     <Stack.Navigator
+      // initialRouteName="MainBottomNavigation"
       screenOptions={{
         headerShown: false,
       }}>

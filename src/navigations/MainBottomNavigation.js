@@ -97,5 +97,3 @@ export default function MainBottomNavigation() {
     </>
   );
 }
-
-const Profile = () => <Text>Profile</Text>;

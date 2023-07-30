@@ -1,4 +1,4 @@
-import {View, Text, Dimensions} from 'react-native';
+import {View, Text, Dimensions, RefreshControl} from 'react-native';
 import React, {useEffect} from 'react';
 import OrphansDetailsCard from '../components/OrphansDetailsCard';
 import {ScrollView} from 'react-native';
@@ -6,10 +6,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useEvent} from 'react-native-reanimated';
 import {getOrphanList} from '../redux/OrphansList/actions';
 import Loading from '../components/Loading';
+import LinearGradient from 'react-native-linear-gradient';
 
 export default function HomeScreen() {
   const addedValue = useSelector(state => state?.orphansListReducer);
-  console.warn(addedValue);
 
   const array = new Array(10).fill('');
 
@@ -17,6 +17,16 @@ export default function HomeScreen() {
 
   useEffect(() => {
     dispatch(getOrphanList());
+  }, []);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      dispatch(getOrphanList());
+      setRefreshing(false);
+    }, 2000);
   }, []);
 
   if (addedValue?.loading) {
@@ -31,25 +41,35 @@ export default function HomeScreen() {
           height: 50,
           justifyContent: 'center',
           display: 'flex',
-          paddingLeft: 10,
+
           width: '100%',
-          elevation: 5,
-          // backgroundColor: 'red',
         }}>
-        <View style={{}}>
+        <LinearGradient
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          colors={['orange', 'rgb(255,100,100)']}
+          style={{
+            backgroundColor: 'blue',
+            paddingTop: 5,
+            height: '100%',
+            paddingLeft: 10,
+          }}>
           <Text
             style={{
               // elevation: 20,
-              fontSize: 30,
-              color: 'black',
-              fontWeight: '500',
+              fontSize: 26,
+              color: 'white',
+              fontWeight: '600',
             }}>
-            Orphans Details
+            {'Orphans Details'.toUpperCase()}
           </Text>
-        </View>
+        </LinearGradient>
       </View>
 
       <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         style={{
           width: '100%',
           paddingHorizontal: 10,

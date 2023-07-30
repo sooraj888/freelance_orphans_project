@@ -4,17 +4,21 @@ import {
   TextInput,
   Button,
   ToastAndroid,
-  TouchableOpacity,
+  TouchableHighlight,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import {} from 'react-native-gesture-handler';
+import {navigate} from '../navigations/RootNavigation';
+import {useNavigation} from '@react-navigation/native';
 
 export default function FeedBack() {
   const [feedBackText, setFeedBackText] = useState('');
   const [userData, setUserData] = useState('');
 
   const [submitText, onChangeText] = React.useState('');
+  const navigation = useNavigation();
 
   const getUSer = async () => {
     try {
@@ -22,6 +26,10 @@ export default function FeedBack() {
       setUserData(data);
     } catch (e) {}
   };
+
+  useEffect(() => {
+    getUSer();
+  }, []);
 
   const submitFeedBack = async () => {
     if (submitText) {
@@ -53,13 +61,44 @@ export default function FeedBack() {
         display: 'flex',
         padding: 20,
       }}>
+      <View
+        style={{
+          position: 'absolute',
+          left: 20,
+          top: 25,
+          zIndex: 100,
+        }}>
+        <Text style={{}} numberOfLines={2}>
+          Email :{userData ? JSON?.parse?.(userData)?.email : ''}
+        </Text>
+      </View>
+      <View
+        style={{
+          position: 'absolute',
+          right: 20,
+          top: 15,
+          zIndex: 100,
+        }}>
+        <Button
+          title="LogOut"
+          onPress={async () => {
+            try {
+              await AsyncStorage.setItem('my-key', '');
+              navigation.navigate('SignInScreen');
+            } catch (e) {
+              // saving error
+            }
+          }}></Button>
+      </View>
       <Text
         style={{
           fontSize: 25,
           textAlign: 'center',
-          marginVertical: 30,
+          marginVertical: 40,
           fontWeight: '600',
           color: 'black',
+          borderTopWidth: 2,
+          paddingTop: 10,
         }}>
         Feedback
       </Text>
@@ -68,6 +107,8 @@ export default function FeedBack() {
           borderRadius: 10,
           borderColor: 'rgba(0,0,0,0.2)',
           borderWidth: 1,
+          marginBottom: 30,
+          paddingHorizontal: 5,
         }}>
         <TextInput
           placeholder="Enter your feedback"
@@ -88,12 +129,13 @@ export default function FeedBack() {
             height: 150,
           }}
         />
-        <Button
-          title={'Submit'}
-          onPress={() => {
-            submitFeedBack();
-          }}></Button>
       </View>
+      <Button
+        title={'Submit'}
+        color={'red'}
+        onPress={() => {
+          submitFeedBack();
+        }}></Button>
     </View>
   );
 }

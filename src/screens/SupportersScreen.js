@@ -1,10 +1,21 @@
-import {View, Text, Image} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Button,
+  Modal,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import DonationModle from '../components/DonationModle';
+import DonationList from '../components/DonationList';
 
 export default function SupportersScreen() {
   const arr = new Array(3).fill('');
 
+  const [modalVisible, setModalVisible] = useState(false);
   const [supportList, setSupportList] = useState();
   const SupportListUrl = 'http://10.0.2.2/admin/sponsor_list';
 
@@ -57,12 +68,12 @@ export default function SupportersScreen() {
             style={{
               // backgroundColor: 'green',
               width: '100%',
-              flex: 1,
+              // flex: 1,
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View
+            <ScrollView
               style={{
                 width: '90%',
                 minHeight: '80%',
@@ -76,13 +87,15 @@ export default function SupportersScreen() {
                     style={{
                       width: '100%',
                       height: 80,
-                      backgroundColor: 'orange',
+                      // backgroundColor: 'rgba(74, 0, 249,0.9)',
                       borderRadius: 10,
                       marginVertical: 5,
                       display: 'flex',
                       flexDirection: 'row',
                       justifyContent: 'center',
                       alignItems: 'center',
+                      borderWidth: 2,
+                      borderColor: 'rgba(200, 100, 250,1)',
                     }}>
                     <View
                       style={{
@@ -115,25 +128,32 @@ export default function SupportersScreen() {
                       <Text
                         style={{
                           fontSize: 20,
-                          color: 'white',
+                          // color: 'white',
                           fontWeight: 'bold',
                         }}>
                         {item.name}
                       </Text>
                       <Text
-                        style={{
-                          color: 'rgb(250,250,200)',
-                        }}>
+                        style={
+                          {
+                            // color: 'rgb(250,250,200)',
+                          }
+                        }>
                         {item.description}
                       </Text>
                     </View>
                   </View>
                 );
               })}
-            </View>
+              <DonationList modalVisible={modalVisible} />
+            </ScrollView>
           </View>
         </View>
       </View>
+      <DonationModle
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
     </View>
   );
 }

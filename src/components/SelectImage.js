@@ -26,9 +26,7 @@ export default function SelectImage({
 
       setFileResponse(response);
       setImage({uri: response?.[0]?.uri});
-    } catch (err) {
-      console.warn(err);
-    }
+    } catch (err) {}
   }, []);
 
   const closeBottomTab = () => {

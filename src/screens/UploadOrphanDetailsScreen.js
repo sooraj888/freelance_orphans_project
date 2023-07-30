@@ -35,14 +35,18 @@ export default function UploadOrphanDetailsScreen() {
       const fileToUpload = fileResponse;
 
       const data = new FormData();
-      data.append('name', 'Image Upload');
-      data.append('bla', 'looloo');
-      data.append('blaba', 'elellelel');
+      data.append('name', 'sagar');
+      data.append('age', '15');
+      data.append('DOB', '22/2/2007');
+      data.append('status', 'orphan');
+      data.append('location', 'hubli');
       data.append('image', {
         uri: fileToUpload?.[0]?.uri,
         type: fileToUpload?.[0]?.type,
         name: 'image2.jpg',
       });
+
+      console.error(JSON.stringify(data));
 
       let resAxios = await axios
         .post('http://192.168.29.45:3000/uploadImg', data, {
@@ -52,7 +56,7 @@ export default function UploadOrphanDetailsScreen() {
         })
         .then(response => {
           // Handle the success response
-          console.log(response.data);
+          console.log(response.data.image);
         })
         .catch(error => {
           // Handle the error response

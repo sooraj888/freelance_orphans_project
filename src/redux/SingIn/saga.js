@@ -28,7 +28,7 @@ const callApi = a => {
         const {
           user_details: [{id, name, email, phone, password, created, status}],
         } = data;
-        console.warn(data.user_details);
+
         if (id && name && email && phone && password && created && status) {
           await AsyncStorage.setItem(
             'my-key',

@@ -19,7 +19,7 @@ export default function GroupChatScreen() {
           // alignItems: 'baseline',
           backgroundColor: 'rgba(250,100,100,0.5)',
         }}>
-        <Text style={styles.heading}>Messages</Text>
+        <Text style={styles.heading}>Notifications</Text>
       </View>
       <View
         style={{

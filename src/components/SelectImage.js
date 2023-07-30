@@ -16,8 +16,6 @@ export default function SelectImage({
   setImage,
   setFileResponse,
 }) {
-  // ref
-
   const handleDocumentSelection = useCallback(async () => {
     try {
       const response = await DocumentPicker.pick({
@@ -32,10 +30,6 @@ export default function SelectImage({
       console.warn(err);
     }
   }, []);
-
-  //   const data = new FormData();
-  //   data.append('name', 'Image Upload');
-  //   data.append('file_attachment', fileResponse);
 
   const closeBottomTab = () => {
     bottomSheetRef.current.close();

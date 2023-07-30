@@ -1,8 +1,29 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import {View, Text, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 
 export default function SupportersScreen() {
   const arr = new Array(3).fill('');
+
+  const [supportList, setSupportList] = useState();
+  const SupportListUrl = 'http://10.0.2.2/admin/sponsor_list';
+
+  const callSupportApi = async () => {
+    const {data} = await axios.post(SupportListUrl);
+    // "name":"asdas","description":"sadas","website":"asdasd","created":"2023-07-29 22:42:16","status":"active"
+    console.log(JSON.stringify(data.sponsor_details?.[0]?.name));
+    if (data.sponsor_details) {
+      setSupportList(data.sponsor_details);
+    } else {
+      setSupportList(new Array(3).fill(''));
+    }
+  };
+
+  useEffect(() => {
+    try {
+      callSupportApi();
+    } catch (e) {}
+  }, []);
 
   return (
     <View style={{flex: 1}}>
@@ -48,7 +69,7 @@ export default function SupportersScreen() {
                 // backgroundColor: 'white',
                 display: 'flex',
               }}>
-              {arr.map((item, index) => {
+              {supportList?.map((item, index) => {
                 return (
                   <View
                     key={index}
@@ -75,7 +96,12 @@ export default function SupportersScreen() {
                         justifyContent: 'center',
                         alignItems: 'center',
                       }}>
-                      <Text>logo</Text>
+                      {/* <Text>logo</Text> */}
+                      <Image
+                        source={{uri: `data:image/png;base64,{${item.img}}`}}
+                        width={70}
+                        style={{borderRadius: 70}}
+                        height={70}></Image>
                     </View>
                     <View
                       style={{
@@ -92,13 +118,13 @@ export default function SupportersScreen() {
                           color: 'white',
                           fontWeight: 'bold',
                         }}>
-                        Supporters {index + 1}
+                        {item.name}
                       </Text>
                       <Text
                         style={{
                           color: 'rgb(250,250,200)',
                         }}>
-                        details
+                        {item.description}
                       </Text>
                     </View>
                   </View>

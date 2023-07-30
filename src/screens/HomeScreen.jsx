@@ -1,15 +1,31 @@
 import {View, Text, Dimensions} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import OrphansDetailsCard from '../components/OrphansDetailsCard';
 import {ScrollView} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useEvent} from 'react-native-reanimated';
+import {getOrphanList} from '../redux/OrphansList/actions';
+import Loading from '../components/Loading';
 
 export default function HomeScreen() {
-  const addedValue = useSelector(state => state?.signInReducer);
+  const addedValue = useSelector(state => state?.orphansListReducer);
   console.warn(addedValue);
+
   const array = new Array(10).fill('');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getOrphanList());
+  }, []);
+
+  if (addedValue?.loading) {
+    return <Loading />;
+  }
+
   return (
     <View style={{flex: 1}}>
+      {/* <Text>{JSON.stringify(addedValue.data)}</Text> */}
       <View
         style={{
           height: 50,

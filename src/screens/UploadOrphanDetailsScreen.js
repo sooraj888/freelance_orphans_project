@@ -12,10 +12,11 @@ import {creamBackground} from '../assets/color';
 import DEFAULT_PROFILE_IMAGE from '../assets/images/deaflut_profile.png';
 import Animated from 'react-native-reanimated';
 import axios from 'axios';
+
 export default function UploadOrphanDetailsScreen() {
   const bottomSheetRef = useRef(null);
   const bottomSheetCloseViewRef = useRef();
-  const [fileResponse, setFileResponse] = useState([]);
+  const [fileResponse, setFileResponse] = useState(null);
   // variables
   const snapPoints = useMemo(() => [100], []);
 
@@ -59,7 +60,7 @@ export default function UploadOrphanDetailsScreen() {
         });
     } else {
       // If no file selected the show alert
-      alert('Please Select File first');
+      ('Please Select Orphan Image first');
     }
   };
 

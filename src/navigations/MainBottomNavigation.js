@@ -10,6 +10,8 @@ import HomeScreen from '../screens/HomeScreen';
 import GroupChatScreen from '../screens/GroupChatScreen';
 import SupportersScreen from '../screens/SupportersScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FeedBackScreen from '../screens/FeedBackScreen';
 const Tab = createBottomTabNavigator();
 
 export default function MainBottomNavigation() {
@@ -60,15 +62,15 @@ export default function MainBottomNavigation() {
           }}
         />
         <Tab.Screen
-          name="Inbox"
+          name="Notification"
           component={GroupChatScreen}
           options={{
             tabBarIcon: ({focused}) => {
               return (
                 <View>
-                  <AntDesign
+                  <FontAwesome
                     size={25}
-                    name={'chat'}
+                    name={'bell'}
                     color={focused ? 'blue' : 'gray'}
                   />
                 </View>
@@ -86,6 +88,24 @@ export default function MainBottomNavigation() {
                   <MaterialIcons
                     size={25}
                     name={'support'}
+                    color={focused ? 'blue' : 'gray'}
+                  />
+                </View>
+              );
+            },
+          }}
+        />
+
+        <Tab.Screen
+          name="Feed Back"
+          component={FeedBackScreen}
+          options={{
+            tabBarIcon: ({focused}) => {
+              return (
+                <View>
+                  <MaterialIcons
+                    size={25}
+                    name={'feedback'}
                     color={focused ? 'blue' : 'gray'}
                   />
                 </View>

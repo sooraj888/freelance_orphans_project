@@ -50,7 +50,9 @@ export default function TextBox({icon, onChange, value, type, placeholder}) {
           }
         }}
         keyboardType={
-          type == 'password'
+          icon == 'phone'
+            ? 'phone-pad'
+            : type == 'password'
             ? isShowPassword
               ? 'visible-password'
               : 'default'

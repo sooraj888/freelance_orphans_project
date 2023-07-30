@@ -22,7 +22,6 @@ export default function SplashScreen() {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      {/* <Text>SplashScreen</Text> */}
       <Animated.View
         style={{
           opacity: fadeAnim,

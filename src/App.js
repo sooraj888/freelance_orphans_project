@@ -31,32 +31,32 @@ import {navigate, navigationRef, replace} from './navigations/RootNavigation';
 import {useDispatch} from 'react-redux';
 import {signIn} from './redux/SingIn/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {call} from 'redux-saga/effects';
+
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App() {
   const dispatch = useDispatch();
 
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('my-key');
-      if (value !== null) {
-        setTimeout(() => {
-          dispatch(signIn(67));
-        }, 5000);
-      } else {
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('my-key');
+
+        if (value !== null && value != {}) {
+          setTimeout(() => {
+            dispatch(signIn(JSON.parse(value)));
+          }, 5000);
+        } else {
+          setTimeout(() => {
+            replace();
+          }, 5000);
+        }
+      } catch (e) {
         setTimeout(() => {
           replace();
         }, 5000);
       }
-    } catch (e) {
-      setTimeout(() => {
-        replace();
-      }, 5000);
-    }
-  };
-
-  useEffect(() => {
+    };
     getData();
   }, []);
 

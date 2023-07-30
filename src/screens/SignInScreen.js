@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import BottomSigningNav from '../components/BottomSigningNav';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import TextBox from '../components/TextBox';
@@ -19,6 +19,8 @@ import {signIn} from '../redux/SingIn/action';
 export default function SignInScreen({navigation}) {
   const dispatch = useDispatch();
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const addedValue = useSelector(state => state?.signInReducer);
 
   if (addedValue?.loading) {
@@ -70,18 +72,22 @@ export default function SignInScreen({navigation}) {
             </View>
             <View style={{}}>
               <TextBox
+                value={email}
                 icon={'mail'}
                 onChange={e => {
                   // console.log(e);
+                  setEmail(e);
                 }}
                 placeholder={'Email'}
               />
             </View>
             <View>
               <TextBox
+                value={password}
                 icon={'lock'}
                 onChange={e => {
                   // console.log(e);
+                  setPassword(e);
                 }}
                 placeholder={'Password'}
                 type={'password'}
@@ -93,7 +99,7 @@ export default function SignInScreen({navigation}) {
                   title={'Sign In'}
                   onPress={() => {
                     // dispatch(add(1));
-                    dispatch(signIn(67));
+                    dispatch(signIn({email, password}));
                     // navigation.navigate('MainBottomNavigation');
                   }}
                 />

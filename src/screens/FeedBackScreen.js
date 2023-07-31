@@ -98,6 +98,7 @@ export default function FeedBack() {
           fontWeight: '600',
           color: 'black',
           borderTopWidth: 2,
+          borderColor: 'pink',
           paddingTop: 10,
         }}>
         Feedback

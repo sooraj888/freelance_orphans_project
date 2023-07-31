@@ -28,13 +28,10 @@ export default function GroupChatScreen() {
           backgroundColor: 'rgba(290,210,210,0.5)',
           // padding: 10,
         }}>
-        <ScrollView
+        {/* <ScrollView
           style={{
             marginTop: 5,
-            // backgroundColor: 'red',
           }}>
-          {/*code for inbox messages starts*/}
-
           <View style={{marginBottom: 50}}>
             <MessageBox isMyMessage={false} massageText={'hi'} time={'10:00'} />
 
@@ -45,12 +42,9 @@ export default function GroupChatScreen() {
               time={'10:00'}
             />
           </View>
+        </ScrollView> */}
 
-          {/*code for inbox messages ends*/}
-        </ScrollView>
-        {/*  */}
-        {/* code for input send box */}
-        <View
+        {/* <View
           style={{
             bottom: 0,
             position: 'absolute',
@@ -66,7 +60,7 @@ export default function GroupChatScreen() {
               console.log('click');
             }}
           />
-        </View>
+        </View> */}
       </View>
     </View>
   );

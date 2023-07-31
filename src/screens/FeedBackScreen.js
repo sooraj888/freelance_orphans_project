@@ -12,6 +12,7 @@ import axios from 'axios';
 import {} from 'react-native-gesture-handler';
 import {navigate} from '../navigations/RootNavigation';
 import {useNavigation} from '@react-navigation/native';
+import getEndPoint from '../getEndPoint';
 
 export default function FeedBack() {
   const [feedBackText, setFeedBackText] = useState('');
@@ -34,7 +35,8 @@ export default function FeedBack() {
   const submitFeedBack = async () => {
     if (submitText) {
       try {
-        const apiData = await axios.post('http://10.0.2.2/admin/feedback', {
+        const host = getEndPoint();
+        const apiData = await axios.post(host + '/admin/feedback', {
           uid: userData.id,
           description: submitText,
         });

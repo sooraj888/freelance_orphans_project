@@ -1,7 +1,8 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
 
-export default function OrphansDetailsCard() {
+export default function OrphansDetailsCard({data}) {
+  console.log(data);
   return (
     <View style={[styles.card, styles.elevation]}>
       <View
@@ -16,9 +17,11 @@ export default function OrphansDetailsCard() {
           padding: 5,
         }}>
         <Image
-          source={{
-            uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn3JBI66Ewfxiq2MpyWroPkkB0NOXKYgyxDw&usqp=CAU',
-          }}
+          // source={{
+
+          //   uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSn3JBI66Ewfxiq2MpyWroPkkB0NOXKYgyxDw&usqp=CAU',
+          // }}
+          source={{uri: `data:image/png;base64,{${data.img}}`}}
           resizeMode="contain"
           style={[
             {
@@ -47,10 +50,10 @@ export default function OrphansDetailsCard() {
               display: 'flex',
               justifyContent: 'space-evenly',
             }}>
-            <LableValue label={'Name'} value={'Anusha '} />
-            <LableValue label={'Age'} value={'8'} />
-            <LableValue label={'D.O.B'} value={'2016'} />
-            <LableValue label={'Status'} value={'Orphan'} />
+            <LableValue label={'Name'} value={data.name} />
+            <LableValue label={'Age'} value={data.age} />
+            <LableValue label={'Place'} value={data.place} />
+            <LableValue label={'Description'} value={data.description} />
           </View>
         </View>
       </View>

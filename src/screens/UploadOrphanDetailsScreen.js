@@ -1,4 +1,4 @@
-import {View, Text, StatusBar, Image, ToastAndroid} from 'react-native';
+import {View, Text, StatusBar, Image, ToastAndroid, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {ScrollView} from 'react-native-gesture-handler';
 import TextBox from '../components/TextBox';
@@ -12,6 +12,10 @@ import {creamBackground} from '../assets/color';
 import DEFAULT_PROFILE_IMAGE from '../assets/images/deaflut_profile.png';
 import Animated from 'react-native-reanimated';
 import axios from 'axios';
+import RNImageToBase64 from 'react-native-image-base64';
+import {useDispatch} from 'react-redux';
+import {getOrphanList} from '../redux/OrphansList/actions';
+import getEndPoint from '../getEndPoint';
 
 export default function UploadOrphanDetailsScreen() {
   const bottomSheetRef = useRef(null);
@@ -29,42 +33,56 @@ export default function UploadOrphanDetailsScreen() {
   };
 
   const [image, setImage] = useState(DEFAULT_PROFILE_IMAGE);
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [place, setPlace] = useState('');
+  const [description, setDescription] = useState('');
 
+  const dispatch = useDispatch();
   const uploadImage = async () => {
     if (fileResponse != null) {
-      const fileToUpload = fileResponse;
+      if (name && age && place && description) {
+        const data = {
+          img: fileResponse,
+          name: name,
+          age: age,
+          place: place,
+          description: description,
+        };
+        const host = getEndPoint();
+        let resAxios = await axios
+          .post(host + '/admin/post_orphans', data)
+          .then(response => {
+            // Handle the success response
+            // console.error(response.data);
+            if (response?.data?.orphan_details) {
+              setAge('');
+              setName('');
+              setDescription('');
+              setPlace('');
+              setFileResponse(null);
+              setImage(DEFAULT_PROFILE_IMAGE);
+              dispatch(getOrphanList());
 
-      const data = new FormData();
-      data.append('name', 'sagar');
-      data.append('age', '15');
-      data.append('DOB', '22/2/2007');
-      data.append('status', 'orphan');
-      data.append('location', 'hubli');
-      data.append('image', {
-        uri: fileToUpload?.[0]?.uri,
-        type: fileToUpload?.[0]?.type,
-        name: 'image2.jpg',
-      });
+              ToastAndroid.show(`Uploaded`, ToastAndroid.SHORT);
+            } else {
+              ToastAndroid.show(`Uploaded Failed`, ToastAndroid.SHORT);
+              console.error('Upload Failed');
+            }
 
-      console.error(JSON.stringify(data));
-
-      let resAxios = await axios
-        .post('http://192.168.29.45:3000/uploadImg', data, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        .then(response => {
-          // Handle the success response
-          console.log(response.data.image);
-        })
-        .catch(error => {
-          // Handle the error response
-          console.error(error);
-        });
+            // console.log(response.data.image);
+          })
+          .catch(error => {
+            ToastAndroid.show(` Uploaded Failed`, ToastAndroid.SHORT);
+            // Handle the error response
+            console.error(error);
+          });
+      } else {
+        alert('Please Enter all details');
+      }
     } else {
       // If no file selected the show alert
-      ('Please Select Orphan Image first');
+      alert('Please Select Orphan Image first');
     }
   };
 
@@ -123,10 +141,34 @@ export default function UploadOrphanDetailsScreen() {
               ]}
             />
           </TouchableOpacity>
-          <TextBox onChange={() => {}} placeholder={'Name'} />
-          <TextBox onChange={() => {}} placeholder={'Age'} />
-          <TextBox onChange={() => {}} placeholder={'D.O.B'} />
-          <TextBox onChange={() => {}} placeholder={'Status'} />
+          <TextBox
+            value={name}
+            onChange={e => {
+              setName(e);
+            }}
+            placeholder={'Name'}
+          />
+          <TextBox
+            value={age}
+            onChange={e => {
+              setAge(e);
+            }}
+            placeholder={'Age'}
+          />
+          <TextBox
+            value={place}
+            onChange={e => {
+              setPlace(e);
+            }}
+            placeholder={'Place'}
+          />
+          <TextBox
+            value={description}
+            onChange={e => {
+              setDescription(e);
+            }}
+            placeholder={'Description'}
+          />
           <MyButton
             hideArrow={true}
             title={'Upload'}

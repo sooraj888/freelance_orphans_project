@@ -23,7 +23,7 @@ export const reducer = (state = initialState, action) => {
     case SIGN_IN_START:
       return {...state, signIn: false, loading: true};
     case SIGN_IN_SUCCESS:
-      storeData(JSON.stringify(action.payload));
+      storeData(JSON?.stringify(action.payload));
       return {...state, signIn: true, loading: false, data: action.payload};
     case SIGN_IN_FAILURE:
       return {...state, signIn: false};

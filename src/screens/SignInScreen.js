@@ -99,7 +99,12 @@ export default function SignInScreen({navigation}) {
                   title={'Sign In'}
                   onPress={() => {
                     // dispatch(add(1));
-                    dispatch(signIn({email, password}));
+                    if (email && password) {
+                      dispatch(signIn({email, password}));
+                    } else {
+                      alert('Please enter the details');
+                    }
+
                     // navigation.navigate('MainBottomNavigation');
                   }}
                 />

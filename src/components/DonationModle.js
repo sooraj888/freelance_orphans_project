@@ -11,11 +11,19 @@ import React, {useState} from 'react';
 import TextBox from './TextBox';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import getEndPoint from '../getEndPoint';
 
-export default function DonationModle({modalVisible, setModalVisible}) {
+export default function DonationModle({
+  modalVisible,
+  setModalVisible,
+  setREtry,
+}) {
   const callDonateApi = async data => {
-    const a = await axios.post('http://10.0.2.2/admin/donate', data);
+    const host = getEndPoint();
+
+    const a = await axios.post(host + '/admin/donate', data);
     if (a.status == 200) {
+      setREtry(pre => !pre);
       ToastAndroid.show(`${data.name} donated`, ToastAndroid.SHORT);
     }
   };
@@ -66,17 +74,18 @@ export default function DonationModle({modalVisible, setModalVisible}) {
                   try {
                     value = JSON?.parse(await AsyncStorage.getItem('my-key'));
                   } catch (e) {}
-                  //   alert(JSON.stringify(value.id));
+
                   if (location && donatedItem) {
                     setModalVisible(!modalVisible);
 
                     callDonateApi({
                       action: 'create',
                       userid: value.id,
-                      name: value.name,
+                      name: donatedItem,
                       location: location,
                     });
                     setLoaction('');
+                    setDonatedItem('');
                   } else {
                     alert('please enter the details');
                   }

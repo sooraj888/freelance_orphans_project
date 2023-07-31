@@ -4,6 +4,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
   Button,
   Modal,
 } from 'react-native';
@@ -11,18 +12,22 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import DonationModle from '../components/DonationModle';
 import DonationList from '../components/DonationList';
+import getEndPoint from '../getEndPoint';
 
 export default function SupportersScreen() {
   const arr = new Array(3).fill('');
 
   const [modalVisible, setModalVisible] = useState(false);
   const [supportList, setSupportList] = useState();
-  const SupportListUrl = 'http://10.0.2.2/admin/sponsor_list';
+  const host = getEndPoint();
+  const SupportListUrl = host + '/admin/sponsor_list';
+
+  const [retry, setREtry] = useState(false);
 
   const callSupportApi = async () => {
     const {data} = await axios.post(SupportListUrl);
     // "name":"asdas","description":"sadas","website":"asdasd","created":"2023-07-29 22:42:16","status":"active"
-    console.log(JSON.stringify(data.sponsor_details?.[0]?.name));
+    console.log(JSON?.stringify(data.sponsor_details?.[0]?.name));
     if (data.sponsor_details) {
       setSupportList(data.sponsor_details);
     } else {
@@ -34,6 +39,16 @@ export default function SupportersScreen() {
     try {
       callSupportApi();
     } catch (e) {}
+  }, []);
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      callSupportApi();
+      setRefreshing(false);
+    }, 2000);
   }, []);
 
   return (
@@ -74,6 +89,9 @@ export default function SupportersScreen() {
               alignItems: 'center',
             }}>
             <ScrollView
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
               style={{
                 width: '90%',
                 minHeight: '80%',
@@ -145,12 +163,17 @@ export default function SupportersScreen() {
                   </View>
                 );
               })}
-              <DonationList modalVisible={modalVisible} />
+              <DonationList
+                retry={retry}
+                modalVisible={modalVisible}
+                refreshing={refreshing}
+              />
             </ScrollView>
           </View>
         </View>
       </View>
       <DonationModle
+        setREtry={setREtry}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />

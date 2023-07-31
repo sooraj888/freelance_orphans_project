@@ -10,12 +10,26 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import DocumentPicker from 'react-native-document-picker';
 import DEFAULT_PROFILE_IMAGE from '../assets/images/deaflut_profile.png';
 
+import RNImageToBase64 from 'react-native-image-base64';
+
 export default function SelectImage({
   bottomSheetRef,
   bottomSheetCloseViewRef,
   setImage,
   setFileResponse,
 }) {
+  const handleConvertImageToBase64 = imgURI => {
+    // const imagePath = 'path_to_your_image.jpg'; // Replace this with the path to your image
+
+    const imagePath = imgURI;
+    RNImageToBase64.getBase64String(imagePath)
+      .then(base64String => {
+        // setBase64Image(base64String);
+        setFileResponse(base64String);
+      })
+      .catch(err => console.log(err));
+  };
+
   const handleDocumentSelection = useCallback(async () => {
     try {
       const response = await DocumentPicker.pick({
@@ -23,8 +37,8 @@ export default function SelectImage({
         type: 'image/*',
         allowMultiSelection: false,
       });
+      handleConvertImageToBase64(response?.[0]?.uri);
 
-      setFileResponse(response);
       setImage({uri: response?.[0]?.uri});
     } catch (err) {}
   }, []);

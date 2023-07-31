@@ -1,11 +1,43 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import {View, Text, StyleSheet, RefreshControl} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import TextBox from '../components/TextBox';
 import MessageInput from '../components/MessageInput';
 import MessageBox from '../components/MessageBox';
+import axios, {all} from 'axios';
+import getEndPoint from '../getEndPoint';
 
 export default function GroupChatScreen() {
+  const [data, setData] = useState([]);
+  const host = getEndPoint();
+  const url = host + '/admin/notification';
+  const callApi = async () => {
+    let a = await axios
+      .post(url, {})
+      .then(response => {
+        if (response?.data?.notification_details) {
+          setData(response?.data?.notification_details);
+        } else {
+        }
+
+        // console.log(response.data.image);
+      })
+      .catch(error => {});
+  };
+  useEffect(() => {
+    callApi();
+  });
+
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      callApi();
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     <View style={[styles.card, styles.elevation]}>
       <View
@@ -28,21 +60,28 @@ export default function GroupChatScreen() {
           backgroundColor: 'rgba(290,210,210,0.5)',
           // padding: 10,
         }}>
-        {/* <ScrollView
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           style={{
             marginTop: 5,
           }}>
-          <View style={{marginBottom: 50}}>
-            <MessageBox isMyMessage={false} massageText={'hi'} time={'10:00'} />
-
-            <MessageBox isMyMessage={true} massageText={'hi'} time={'10:00'} />
-            <MessageBox
-              isMyMessage={false}
-              massageText={'hello all'}
-              time={'10:00'}
-            />
+          <View style={{marginBottom: 50, padding: 8}}>
+            {/* <Text>{JSON?.stringify(data)}</Text> */}
+            {data?.map((item, index) => {
+              return (
+                <MessageBox
+                  key={index}
+                  isMyMessage={false}
+                  subject={item.subject}
+                  massageText={item.description}
+                  time={'10:00'}
+                />
+              );
+            })}
           </View>
-        </ScrollView> */}
+        </ScrollView>
 
         {/* <View
           style={{

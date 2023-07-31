@@ -15,6 +15,7 @@ import MyButton from '../components/MyButton';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import getEndPoint from '../getEndPoint';
 
 export default function SignUpScreen({navigation}) {
   const insets = useSafeAreaInsets();
@@ -35,7 +36,8 @@ export default function SignUpScreen({navigation}) {
   // };
 
   const callApi = async () => {
-    const url = 'http://10.0.2.2/admin/user_register';
+    const host = getEndPoint();
+    const url = host + '/admin/user_register';
 
     const newData = await fetch(url, {
       method: 'POST',
@@ -43,7 +45,7 @@ export default function SignUpScreen({navigation}) {
       headers: {
         'Content-Type': 'application/json', // Specify the content type as JSON
       },
-      body: JSON.stringify({
+      body: JSON?.stringify({
         action: 'create',
         name: name,
         email: email,
@@ -55,9 +57,9 @@ export default function SignUpScreen({navigation}) {
       .then(async data => {
         // await AsyncStorage.setItem(
         //   'my-key',
-        //   JSON.stringify({email: email, password: password}),
+        //   JSON?.stringify({email: email, password: password}),
         // );
-        // storeData(JSON.stringify({email: email, name: name}));
+        // storeData(JSON?.stringify({email: email, name: name}));
         ToastAndroid.show('Account created successfully', ToastAndroid.SHORT);
         navigation.navigate('SignInScreen');
         return data;

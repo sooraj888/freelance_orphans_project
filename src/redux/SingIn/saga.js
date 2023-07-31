@@ -4,8 +4,11 @@ import {SIGN_IN_START} from './constant';
 import {all, call, put, takeEvery} from 'redux-saga/effects';
 import {ToastAndroid, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import getEndPoit from '../../getEndPoint';
+import getEndPoint from '../../getEndPoint';
+const host = getEndPoint();
 
-const url = 'http://10.0.2.2/admin/user_register';
+const url = host + '/admin/user_register';
 
 const callApi = a => {
   const {email, password} = a;
@@ -17,7 +20,7 @@ const callApi = a => {
       headers: {
         'Content-Type': 'application/json', // Specify the content type as JSON
       },
-      body: JSON.stringify({
+      body: JSON?.stringify({
         action: 'login',
         email: email,
         password: password,
@@ -25,14 +28,18 @@ const callApi = a => {
     })
       .then(response => response.json())
       .then(async data => {
-        const {
-          user_details: [{id, name, email, phone, password, created, status}],
-        } = data;
-
-        if (id && name && email && phone && password && created && status) {
+        if (
+          data.user_details?.[0]?.id &&
+          data.user_details?.[0]?.name &&
+          data.user_details?.[0]?.email &&
+          data.user_details?.[0]?.phone &&
+          data.user_details?.[0]?.password &&
+          data.user_details?.[0]?.created &&
+          data.user_details?.[0]?.status
+        ) {
           await AsyncStorage.setItem(
             'my-key',
-            JSON.stringify(data?.user_details?.[0]),
+            JSON?.stringify(data?.user_details?.[0]),
           );
         } else {
           return {error: true};

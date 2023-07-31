@@ -35,7 +35,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{flex: 1}}>
-      {/* <Text>{JSON.stringify(addedValue.data)}</Text> */}
+      {/* <Text>{JSON?.stringify(addedValue.data)}</Text> */}
       <View
         style={{
           height: 50,
@@ -76,8 +76,8 @@ export default function HomeScreen() {
           // display: 'flex',
           // justifyContent: 'space-around',
         }}>
-        {array?.map((item, index) => {
-          return <OrphansDetailsCard key={index} />;
+        {addedValue?.data?.map((item, index) => {
+          return <OrphansDetailsCard key={index} data={item} />;
         })}
       </ScrollView>
     </View>

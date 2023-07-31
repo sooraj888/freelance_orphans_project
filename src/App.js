@@ -44,7 +44,7 @@ function App() {
 
         if (value !== null && value != {}) {
           setTimeout(() => {
-            dispatch(signIn(JSON.parse(value)));
+            dispatch(signIn(JSON?.parse(value)));
           }, 5000);
         } else {
           setTimeout(() => {

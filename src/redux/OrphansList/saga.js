@@ -2,9 +2,11 @@ import {all, call, put, takeEvery} from 'redux-saga/effects';
 import {GET_ORPHANS_LIST_INIT} from './constants';
 import {getOrphanListFailure, getOrphanListSuccess} from './actions';
 import axios from 'axios';
+import getEndPoint from '../../getEndPoint';
 
 const callApi = () => {
-  return axios.post('http://10.0.2.2/admin/get_orphans');
+  const host = getEndPoint();
+  return axios.post(host + '/admin/get_orphans');
 };
 
 function* userSagaList() {
